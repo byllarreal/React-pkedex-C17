@@ -1,25 +1,46 @@
+import {useState,useEffect} from 'react';
+import axios from 'axios';
+import PokemonCard from "./Card";
+
 
 export default function PokemonList() {
-  const getPokemonCard=()=>{
-    return(
-    <div class="card">
-          <div class="photo">
-            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png" alt="pokemon photo" />
-          </div>
-          <div class="info">
-            <div class="id">N° 001</div>
-            <div class="name">bulbasaur</div>
-            <div class="types">
-              <div class="grass">Grass</div>
-              <div class="poison">Poison</div>
-            </div>
-          </div>
-        </div>
-    );
-  };    
+  const url='https://pokeapi.co/api/v2/pokemon?limit=10';
+  const [listPokemon,setListPokemon]=useState([]);
+  useEffect(()=>{  
+        const requestPokemonDetail=async(pokemonObjects)=>{
+          const detailedPokemonList=await Promise.all(
+            pokemonObjects.map(async (pokemonObject)=>{
+              const pokemonDetail=await axios.get(pokemonObject.url)
+              return pokemonDetail.data;
+            })
+          );
+            setListPokemon(detailedPokemonList);
+        };
+        const fetchPokemonList=async()=>{
+          try{
+            const response = await axios.get(url);
+            const pokemonObjects=response?.data?.results;
+            requestPokemonDetail(pokemonObjects);
+          }catch (error){
+            console.log(error);
+          }
+        }
+        
+        fetchPokemonList();
+        
+  },[]);
+    
   return (
-    <div class="contenido">       
-       {getPokemonCard()}
-      </div>
+    
+    <div className="contenido"> 
+    {console.log(listPokemon)}    
+   {listPokemon.map((dato,index)=>(
+    <div key={index}>
+    {listPokemon.length > 0 && (
+        <PokemonCard imagen={dato?.sprites.front_shiny} nombre={dato?.name} num={dato?.id}/>        
+        )}
+    </div>
+   ))}
+    </div>
   )
 }
