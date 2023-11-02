@@ -1,14 +1,27 @@
-import './Styles.scss'
+import {useState} from 'react';
+import './Styles.scss';
 
 export default function Header() {
-  return (
-    <div class="header">
-        <div class="title">Pokedex</div>
-        <div class="search">
-          <input type="text" class="searchbox" />
-          <button class="searchbutton">
-            <i class="fas fa-search"></i>   
-          </button>
+  const [pokemonName, setPokemonName]=useState("");
+
+  const handleChange=e=>{
+    setPokemonName(e.target.value);
+  }
+
+  function recargar(datopoke){
+    const url=window.location.origin;
+    const nurl=url + "/" + datopoke;     
+    window.location.href=nurl;
+  }
+  
+    return (
+    <div className="header">
+        <div className="title">Pokedex</div>
+        <div className="search">          
+          <input type="text" className="searchbox" placeholder='Ingrese número o nombre' value={pokemonName} onChange={handleChange} />          
+          <button className="searchbutton" onClick={()=>recargar(pokemonName.toLowerCase())}> 
+              <i className="fas fa-search">Buscar</i> 
+          </button>          
         </div>        
       </div>
   )
