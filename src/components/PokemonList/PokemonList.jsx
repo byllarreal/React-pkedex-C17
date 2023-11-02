@@ -31,6 +31,7 @@ export function PokemonList({nom}) {
             
           }catch (error){
             console.log(error);
+            requestPokemonDetail([error]);
           }
         }
         const fetchPokemon=async(url)=>{
@@ -43,6 +44,7 @@ export function PokemonList({nom}) {
             
           }catch (error){
             console.log(error);
+            setListPokemon([error]);             
           }
         }
         if(fornum){

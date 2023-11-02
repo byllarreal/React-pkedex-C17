@@ -24,6 +24,7 @@ export function Pokemon() {
             
           }catch (error){
             console.log(error);
+            setListPokemon([error]);
           }
         }
 
@@ -49,6 +50,8 @@ export function Pokemon() {
             
           }catch (error){
             console.log(error);
+            setListEvo([error]);
+            setListName([error]);
           }
         }
         
