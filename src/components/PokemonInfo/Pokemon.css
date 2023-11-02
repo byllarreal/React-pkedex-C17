@@ -1,0 +1,73 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+#header-title {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+#header-left {
+  order: 1;
+}
+
+#header-right {
+  order: 2;
+}
+
+#cuerpo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.parte {
+  width: 48%;
+  margin: 5px;
+  padding: 10px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.centrado {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.centrado .parte:nth-child(odd) {
+  order: 1;
+}
+
+.centrado .parte:nth-child(even) {
+  order: 2;
+}
+
+.progress-bar {
+  width: 300px;
+  height: 30px;
+  background-color: #ccc;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background-color: green;
+  transition: width 0.5s;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}

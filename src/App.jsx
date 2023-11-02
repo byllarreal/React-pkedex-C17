@@ -1,16 +1,17 @@
 import Header from './components/Header/Header'
-import PokemonList from './components/PokemonList/PokemonList'
+import {PokemonList} from './components/PokemonList/PokemonList'
+import {useParams} from 'react-router-dom';
 
 import './App.css'
 
 function App() {
+  const {poknum}=useParams();  
   
-
   return (
-    <>
+    <>      
       <div className="container">
         <Header />
-        <PokemonList />        
+        {poknum===undefined ? <PokemonList nom='1'/>:<PokemonList nom={poknum}/>}
     </div>
     </>
   )

@@ -1,20 +1,23 @@
-export default function PokemonCard(props) {  
-    const getPokemonCard=()=>{        
-        return(        
+export function PokemonCard(props) {  
+    const getPokemonCard=()=>{           
+        return(                    
             <div className="card">
                 <div className="photo">
                 <img src={props.imagen} alt="pokemon photo" />
                 </div>
                 <div className="info">
-                <div className="id">{props.num}</div>
+                <div className="id">No.{props.num}</div>
                 <div className="name">{props.nombre}</div>
-                <div className="types">
-                    <div className="grass">Grass</div>
-                    <div className="poison">Poison</div>
+                <div className="types">                    
+                    {(props.tipo).map((datot, index)=>(                                                
+                        <div key={index} className={"background-color-"+datot?.type?.name}>{datot?.type?.name}</div>                        
+                    ))}
+                    
                 </div>
                 </div>
-            </div>
+            </div>            
         );
+        
     };    
   
     return (

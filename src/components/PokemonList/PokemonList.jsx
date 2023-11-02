@@ -1,10 +1,17 @@
 import {useState,useEffect} from 'react';
 import axios from 'axios';
-import PokemonCard from "./Card";
+import {PokemonCard} from "./Card";
+import {Link} from 'react-router-dom';
 
-
-export default function PokemonList() {
-  const url='https://pokeapi.co/api/v2/pokemon?limit=10';
+export function PokemonList({nom}) {
+  let url="";
+  let fornum=true;
+  if(Number.isInteger(parseInt(nom))){
+    url='https://pokeapi.co/api/v2/pokemon?limit=10&offset=' + parseInt(nom-1);
+  }else{
+    url='https://pokeapi.co/api/v2/pokemon/'+nom;
+    fornum=false;
+  }
   const [listPokemon,setListPokemon]=useState([]);
   useEffect(()=>{  
         const requestPokemonDetail=async(pokemonObjects)=>{
@@ -17,27 +24,58 @@ export default function PokemonList() {
             setListPokemon(detailedPokemonList);
         };
         const fetchPokemonList=async()=>{
-          try{
+          try{            
             const response = await axios.get(url);
-            const pokemonObjects=response?.data?.results;
-            requestPokemonDetail(pokemonObjects);
+            const pokemonObjects=response?.data?.results;                                                
+            requestPokemonDetail(pokemonObjects);            
+            
           }catch (error){
             console.log(error);
           }
         }
-        
-        fetchPokemonList();
-        
+        const fetchPokemon=async(url)=>{
+          try{  
+            const apokemonObjects=[];
+            const response = await axios.get(url);            
+            const pokemonObjects=response?.data;                                    
+            apokemonObjects.push(pokemonObjects);
+            setListPokemon(apokemonObjects);  
+            
+          }catch (error){
+            console.log(error);
+          }
+        }
+        if(fornum){
+          fetchPokemonList();
+        }else{
+          fetchPokemon(url);
+        }
   },[]);
+
+    const ceros=(longitud)=>{
+      let url="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
+      switch(longitud){
+        case 1:url+="00";break;
+        case 2:url+="0";break;
+        default:url;
+      }return url;
+    }
     
+
   return (
     
-    <div className="contenido"> 
-    {console.log(listPokemon)}    
+    <div className="contenido">     
    {listPokemon.map((dato,index)=>(
     <div key={index}>
-    {listPokemon.length > 0 && (
-        <PokemonCard imagen={dato?.sprites.front_shiny} nombre={dato?.name} num={dato?.id}/>        
+    {listPokemon.length > 0 && (       
+      <Link to={`/Pokemon/${dato?.id}`}>
+        <PokemonCard 
+          tipo={dato?.types}
+          imagen={ceros((String(dato?.id)).length)+dato?.id+".png"}
+          nombre={dato?.name} 
+          num={dato?.id}          
+        />  
+        </Link>              
         )}
     </div>
    ))}
