@@ -7,7 +7,7 @@ function updateProgressBar(exp) {
     useEffect(()=>{
         const progress=async()=>{   
             try{
-                setprogressExp(Math.trunc(((await exp)/255)*100));
+                setprogressExp(Math.trunc(((await exp)/300)*100));
                 progressFill.style.width = `${progressExp}%`;
                 progressFill.innerHTML = `${await exp}%`;
             }catch (error){
@@ -39,10 +39,11 @@ export function PokeinfoCard(props) {
 
         updateProgressBar(props.experiencia);
         
+
         return(
     <>
     <header>
-                <h1>{props.nombre.toUpperCase()}</h1>                
+                <h1>{props.nombre}</h1>                
                 <button className="searchbutton" onClick={()=>recargar(props.id-1)}> 
                      <i className="fas fa-search">prev</i> 
                 </button>                          
@@ -57,7 +58,7 @@ export function PokeinfoCard(props) {
                     <div key={index} >                        
                         <img src={datoi} alt={props.nombre} />
                         <div className="centrado">
-                            <h3>{props.nomevos[index].toUpperCase()}</h3>
+                            <h3>{props.nomevos[index]}</h3>
                         </div>
                         {index < props.imgsevo.length-1  && (           
                         <div className="centrado">
@@ -83,10 +84,7 @@ export function PokeinfoCard(props) {
                     <h2>Datos</h2>
                     <ul>
                         <li>Nombre: {props.nombre}</li>
-                        <li>Número: {props.id}</li>                        
-                        {(props.tipo).map((datot, index)=>(                                                                            
-                            <li key={index} className={"background-color-"+datot?.type?.name}>Tipo: {datot?.type?.name}</li>                        
-                        ))}
+                        <li>Número: {props.id}</li>                                                
                         <li>Altura: {props.altura} cms</li>
                         <li>Peso: {props.peso} kg</li>                        
                         {(props.habilidad).map((datoh, index)=>(                                                                            
@@ -102,23 +100,7 @@ export function PokeinfoCard(props) {
                         {(props.tipo).map((datot, index)=>(                                                                            
                             <li key={index} className={"background-color-"+datot?.type?.name}>Tipo: {datot?.type?.name}</li>                        
                         ))}
-                    </ul>
-                    <h2>Debilidades</h2>
-                    <ul>
-                        <li>Fuego</li>
-                        <li>Volador</li>
-                        <li>Hielo</li>
-                        <li>Roca</li>
-                        <li>Veneno</li>
-                        <li>Bicho</li>
-                        <li>Tierra</li>
-                    </ul>
-                    <h2>Resistencias</h2>
-                    <ul>
-                        <li>Agua</li>
-                        <li>Tierra</li>
-                        <li>Electricidad</li>
-                    </ul>
+                    </ul>                   
                 </section>
             </div>
         </div>
