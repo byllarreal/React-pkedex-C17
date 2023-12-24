@@ -18,6 +18,6 @@ export const router=createBrowserRouter([
       path:"/Pokemon/:data",
       element:<Pokemon />,
       errorElement:<Error />
-    }
+    }    
   ]);
   
