@@ -37,14 +37,7 @@ export function PokeinfoCard(props) {
             window.location.href=nurl;
             
         }
-
-        function rutePivot(){            
-            if(window.location.href.split('/')[3]=="Pokemon"){
-                return "Pokemox"
-            }else{
-                return "Pokemon"
-            }
-        }
+        
 
         updateProgressBar(props.experiencia);
         
@@ -55,8 +48,7 @@ export function PokeinfoCard(props) {
                 <h1>{props.nombre}</h1>                
                 <button className="searchbutton" onClick={()=>recargar(props.id-1)}> 
                      <i className="fas fa-search">prev</i> 
-                </button>      
-                <Link to={`/${rutePivot()}/${props.id +1 }`}>Ir al Pokemon</Link>                 
+                </button>                     
                 <button className="searchbutton" onClick={()=>recargar(props.id+1)}> 
                     <i className="fas fa-search">next</i> 
                 </button>                  
