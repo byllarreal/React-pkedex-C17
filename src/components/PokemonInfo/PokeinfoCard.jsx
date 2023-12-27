@@ -35,7 +35,7 @@ export function PokeinfoCard(props) {
             const url=window.location.origin;
             const nurl=url + "/Pokemon/" + datopoke; 
             window.location.href=nurl;
-            alert(window.location.href.split('/')[3])
+            
         }
 
         function rutePivot(){            
