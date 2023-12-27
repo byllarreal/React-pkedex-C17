@@ -23,18 +23,27 @@ function updateProgressBar(exp) {
   
   
 
-export function PokeinfoCard(props) {  
+export function PokeinfoCard(props) {      
     const getPokeinfoCard=()=>{        
 
-        function recargar(datopoke){
+        function recargar(datopoke){            
             if(datopoke===0){
                 datopoke=1010
             }else if(datopoke===1011){
                 datopoke=1;
             }            
             const url=window.location.origin;
-            const nurl=url + "/Pokemon/" + datopoke;     
+            const nurl=url + "/Pokemon/" + datopoke; 
             window.location.href=nurl;
+            alert(window.location.href.split('/')[3])
+        }
+
+        function rutePivot(){            
+            if(window.location.href.split('/')[3]=="Pokemon"){
+                return "Pokemox"
+            }else{
+                return "Pokemon"
+            }
         }
 
         updateProgressBar(props.experiencia);
@@ -46,7 +55,8 @@ export function PokeinfoCard(props) {
                 <h1>{props.nombre}</h1>                
                 <button className="searchbutton" onClick={()=>recargar(props.id-1)}> 
                      <i className="fas fa-search">prev</i> 
-                </button>                          
+                </button>      
+                <Link to={`/${rutePivot()}/${props.id +1 }`}>Ir al Pokemon</Link>                 
                 <button className="searchbutton" onClick={()=>recargar(props.id+1)}> 
                     <i className="fas fa-search">next</i> 
                 </button>                  
