@@ -71,3 +71,17 @@ header {
   line-height: 30px;
   color: white;
 }
+
+.barra-roja {
+  width: 100%;
+  height: 2px;
+  background-color: #f80303; /* Puedes ajustar el color a tu preferencia */
+  margin-bottom: 5px; /* Espacio entre las líneas */
+}
+
+.barra-gris {
+  width: 100%;
+  height: 2px;
+  background-color: #504e4e; /* Puedes ajustar el color a tu preferencia */
+  margin-bottom: 5px; /* Espacio entre las líneas */
+}

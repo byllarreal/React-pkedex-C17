@@ -3,55 +3,80 @@ import axios from 'axios';
 import {PokemonCard} from "./Card";
 import {Link} from 'react-router-dom';
 
-export function PokemonList({nom}) {
+export function PokemonList({nom}) {  
   let url="";
-  let fornum=true;
+  let urld="";
+  let fornum=true;  
   if(Number.isInteger(parseInt(nom))){
-    url='https://pokeapi.co/api/v2/pokemon?limit=10&offset=' + parseInt(nom-1);
+    url='https://pokeapi.co/api/v2/pokemon?limit=10&offset=' + parseInt(nom-1);    
+    urld='https://pokeapi.co/api/v2/pokemon-species?limit=10&offset=' + parseInt(nom-1);
   }else{
-    url='https://pokeapi.co/api/v2/pokemon/'+nom;
+    url='https://pokeapi.co/api/v2/pokemon/'+nom;    
+    urld='https://pokeapi.co/api/v2/pokemon-species/'+nom;
     fornum=false;
   }
   const [listPokemon,setListPokemon]=useState([]);
+  const [listPokemonD,setListPokemonD]=useState([]);
   useEffect(()=>{  
-        const requestPokemonDetail=async(pokemonObjects)=>{
+        const requestPokemonDetail=async(pokemonObjects,d)=>{
           const detailedPokemonList=await Promise.all(
             pokemonObjects.map(async (pokemonObject)=>{
               const pokemonDetail=await axios.get(pokemonObject.url)
               return pokemonDetail.data;
             })
           );
-            setListPokemon(detailedPokemonList);
+            if(d){
+              setListPokemonD(detailedPokemonList);
+            }else{
+              setListPokemon(detailedPokemonList);
+            }
         };
         const fetchPokemonList=async()=>{
           try{            
             const response = await axios.get(url);
             const pokemonObjects=response?.data?.results;                                                
-            requestPokemonDetail(pokemonObjects);            
+            requestPokemonDetail(pokemonObjects,false);            
             
           }catch (error){
             console.log(error);
-            requestPokemonDetail([error]);
+            requestPokemonDetail([error],false);
           }
         }
-        const fetchPokemon=async(url)=>{
+        const fetchPokemon=async(url,d)=>{
           try{  
             const apokemonObjects=[];
             const response = await axios.get(url);            
-            const pokemonObjects=response?.data;                                    
+            const pokemonObjects=response?.data;                                              
             apokemonObjects.push(pokemonObjects);
-            setListPokemon(apokemonObjects);  
+            if(d){
+              setListPokemon(apokemonObjects);  
+            }else{
+              setListPokemonD(apokemonObjects);
+            }
+          }catch (error){
+            console.log(error);
+            if(d){setListPokemon([error]);}else{setListPokemonD([error]);}             
+          }
+        }
+        const fetchDescript=async(urld)=>{
+          try{              
+            const response = await axios.get(urld);            
+            const pokemonObjects=response?.data?.results; 
+            requestPokemonDetail(pokemonObjects,true);
             
           }catch (error){
             console.log(error);
-            setListPokemon([error]);             
+            requestPokemonDetail([error],true);             
           }
         }
         if(fornum){
           fetchPokemonList();
+          fetchDescript(urld);
         }else{
-          fetchPokemon(url);
-        }
+          fetchPokemon(url,true);
+          fetchPokemon(urld,false);
+        }  
+            
   },[]);
 
     const ceros=(longitud)=>{
@@ -62,12 +87,14 @@ export function PokemonList({nom}) {
         default:url;
       }return url;
     }
+    console.log("***")
+    console.log(listPokemonD[0]?.code) 
     
-
-  return (
+      
     
+  return (    
     <div className="contenido">     
-   {listPokemon.map((dato,index)=>(
+   {listPokemon.map((dato,index)=>(    
     <div key={index}>
     {listPokemon.length > 0 && (       
       <Link to={`/Pokemon/${dato?.id}`}>
@@ -75,7 +102,10 @@ export function PokemonList({nom}) {
           tipo={dato?.types}
           imagen={ceros((String(dato?.id)).length)+dato?.id+".png"}
           nombre={dato?.name} 
-          num={dato?.id}          
+          num={dato?.id}   
+          descripcion={listPokemonD[index]?.flavor_text_entries[1]?.flavor_text}
+          crecimiento={listPokemonD[index]?.growth_rate?.name} 
+          habitat={listPokemonD[index]?.habitat?.name}
         />  
         </Link>              
         )}
@@ -84,3 +114,9 @@ export function PokemonList({nom}) {
     </div>
   )
 }
+
+
+
+
+
+
