@@ -1,9 +1,11 @@
 import {Link} from 'react-router-dom';
 export function Error(){
+    
     return(
         <div>
             <div className="centrado">
                 <h3>El pokemon que buscas no existe</h3>
+                
             </div>
             <div className="centrado">
                 <img src="../Imgs/errorsaur.png" alt="" width={450}/>
@@ -16,3 +18,4 @@ export function Error(){
         </div>
     )
 }
+
